@@ -5,7 +5,8 @@ __pycache__/
 *.py[cod]
 .venv/
 venv/
+.deps/
+.tmp/
 .pytest_cache/
 *.zip
-
 
