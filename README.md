@@ -1,5 +1,7 @@
 # Study Quest
 
+> `v2-development` is an isolated preview track. The production service continues to deploy from `main`.
+
 An AI-powered study workspace with onboarding, a personalized dashboard, notes and quizzes, Ask AI, exam assistance, Pomodoro focus sessions, progress tracking, and rewards.
 
 ## Run locally
