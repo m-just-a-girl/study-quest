@@ -1,0 +1,15 @@
+services:
+  - type: web
+    name: study-quest
+    runtime: python
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn main:app
+    envVars:
+      - key: OPENROUTER_API_KEY
+        sync: false
+      - key: FLASK_SECRET_KEY
+        generateValue: true
+      - key: REQUIRE_VERIFIED_AUTH
+        value: "1"
+
+
