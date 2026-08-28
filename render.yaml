@@ -1,6 +1,6 @@
 services:
   - type: web
-    name: study-quest
+    name: study-quest-v2-preview
     runtime: python
     plan: free
     buildCommand: pip install -r requirements.txt
