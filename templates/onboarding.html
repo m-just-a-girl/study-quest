@@ -1,0 +1,697 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profile Setup — Study Quest</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Bowlby+One+SC&family=Space+Grotesk:wght@400;500;600;700&family=Syne:wght@700;800;900&display=swap" rel="stylesheet">
+
+    <style>
+        :root {
+            --bg-base: #faf8f5;
+            --card-bg: #ffffff;
+            --text-dark: #141615;
+            --text-muted: #666c6a;
+            --orange: #ff5a00;
+            --orange-glow: rgba(255, 90, 0, 0.25);
+            --purple: #9b1cff;
+            --border-subtle: rgba(20, 22, 21, 0.08);
+            --input-bg: #f0eeeb;
+            --grid-line: rgba(20, 22, 21, 0.06);
+            --card-shadow: 0 12px 32px rgba(0, 0, 0, 0.06), 0 2px 6px rgba(0, 0, 0, 0.04);
+        }
+
+        [data-theme="dark"] {
+            --bg-base: #070b0a;
+            --card-bg: #111614;
+            --text-dark: #ffffff;
+            --text-muted: #8b9290;
+            --border-subtle: rgba(255, 255, 255, 0.08);
+            --input-bg: #161c1a;
+            --grid-line: rgba(255, 255, 255, 0.05);
+            --card-shadow: 0 16px 36px rgba(0, 0, 0, 0.4);
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            background-color: var(--bg-base);
+            color: var(--text-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            position: relative;
+            overflow-x: hidden;
+            background-image: 
+                linear-gradient(var(--grid-line) 1px, transparent 1px),
+                linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
+            background-size: 32px 32px;
+            transition: background-color 0.25s ease;
+        }
+
+        /* Ambient Corner Glows */
+        .glow-left {
+            position: fixed;
+            top: -80px;
+            left: -80px;
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, rgba(255, 120, 80, 0.18) 0%, rgba(255, 120, 80, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        .glow-right {
+            position: fixed;
+            top: -80px;
+            right: -80px;
+            width: 480px;
+            height: 480px;
+            background: radial-gradient(circle, rgba(155, 28, 255, 0.14) 0%, rgba(155, 28, 255, 0) 70%);
+            z-index: 0;
+            pointer-events: none;
+        }
+
+        /* NAVBAR */
+        .site-nav {
+            position: relative;
+            z-index: 10;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 16px 48px;
+            background: rgba(250, 248, 245, 0.85);
+            backdrop-filter: blur(12px);
+            border-bottom: 1px solid var(--border-subtle);
+        }
+
+        [data-theme="dark"] .site-nav {
+            background: rgba(7, 11, 10, 0.85);
+        }
+
+        .brand {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            text-decoration: none;
+            color: var(--text-dark);
+            font-family: 'Bowlby One SC', cursive;
+            font-size: 19px;
+        }
+
+        .brand-icon {
+            width: 36px;
+            height: 36px;
+            background: var(--orange);
+            border-radius: 6px;
+            display: grid;
+            place-items: center;
+            font-size: 18px;
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+
+        .theme-btn {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            padding: 6px 14px;
+            border-radius: 6px;
+            font-size: 14px;
+            cursor: pointer;
+        }
+
+        .back-link {
+            text-decoration: none;
+            color: var(--text-dark);
+            font-size: 13px;
+            font-weight: 700;
+        }
+
+        /* SPLIT CONTAINER */
+        .split-container {
+            position: relative;
+            z-index: 5;
+            flex: 1;
+            max-width: 1280px;
+            width: 100%;
+            margin: 0 auto;
+            padding: 40px 48px;
+            display: grid;
+            grid-template-columns: 1.05fr 0.95fr;
+            gap: 52px;
+            align-items: center;
+        }
+
+        /* LEFT 3D HERO */
+        .left-hero {
+            display: flex;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .badge-chip {
+            align-self: flex-start;
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            background: #fff0ea;
+            color: var(--orange);
+            border: 1px solid rgba(255, 90, 0, 0.3);
+            padding: 4px 12px;
+            border-radius: 20px;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.8px;
+        }
+
+        [data-theme="dark"] .badge-chip {
+            background: rgba(255, 90, 0, 0.15);
+        }
+
+        .hero-headline {
+            font-family: 'Syne', sans-serif;
+            font-size: 60px;
+            font-weight: 900;
+            line-height: 0.92;
+            text-transform: uppercase;
+            letter-spacing: -2px;
+        }
+
+        .hero-headline .ink {
+            color: var(--text-dark);
+        }
+
+        .hero-headline .orange-3d {
+            color: var(--orange);
+            display: inline-block;
+            text-shadow: 
+                2px 2px 0 rgba(20, 22, 21, 0.8),
+                4px 4px 0 rgba(20, 22, 21, 0.8);
+        }
+
+        .left-hero p {
+            max-width: 460px;
+            color: var(--text-muted);
+            font-size: 14px;
+            font-weight: 500;
+            line-height: 1.6;
+        }
+
+        /* RIGHT CARD (CLEAN & REFINED) */
+        .right-card-wrapper {
+            display: flex;
+            justify-content: center;
+        }
+
+        .setup-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-subtle);
+            border-radius: 8px;
+            width: 100%;
+            max-width: 440px;
+            padding: 32px;
+            box-shadow: var(--card-shadow);
+            position: relative;
+        }
+
+        .top-gradient-strip {
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: linear-gradient(90deg, var(--orange), var(--purple));
+            border-top-left-radius: 8px;
+            border-top-right-radius: 8px;
+        }
+
+        .card-brand-header {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-bottom: 22px;
+        }
+
+        .sq-tag {
+            background: var(--orange);
+            color: #fff;
+            font-family: 'Bowlby One SC', sans-serif;
+            font-size: 13px;
+            padding: 6px 8px;
+            border-radius: 4px;
+        }
+
+        .card-title-box h2 {
+            font-size: 18px;
+            font-weight: 800;
+            color: var(--text-dark);
+            line-height: 1.2;
+        }
+
+        .card-title-box p {
+            font-size: 12px;
+            color: var(--text-muted);
+            font-weight: 500;
+        }
+
+        .step-divider {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-size: 11px;
+            font-weight: 800;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            color: var(--text-muted);
+            margin-bottom: 20px;
+            border-bottom: 1px solid var(--border-subtle);
+            padding-bottom: 8px;
+        }
+
+        .step-content {
+            display: none;
+            flex-direction: column;
+            gap: 16px;
+        }
+
+        .step-content.active {
+            display: flex;
+        }
+
+        .form-group {
+            display: flex;
+            flex-direction: column;
+            gap: 6px;
+        }
+
+        label {
+            font-size: 11px;
+            text-transform: uppercase;
+            font-weight: 700;
+            letter-spacing: 0.5px;
+            color: var(--text-dark);
+        }
+
+        input[type="text"],
+        input[type="date"],
+        select,
+        textarea {
+            width: 100%;
+            padding: 13px 14px;
+            background: var(--input-bg);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            color: var(--text-dark);
+            font-family: 'Space Grotesk', sans-serif;
+            font-size: 13px;
+            font-weight: 500;
+            outline: none;
+            transition: all 0.2s ease;
+        }
+
+        input:focus, select:focus, textarea:focus {
+            background: var(--card-bg);
+            border-color: var(--orange);
+            box-shadow: 0 0 0 3px var(--orange-glow);
+        }
+
+        /* PILLS FOR SUBJECTS & HOURS */
+        .pills-grid {
+            display: grid;
+            grid-template-columns: repeat(3, 1fr);
+            gap: 8px;
+        }
+
+        .pill-label {
+            background: var(--input-bg);
+            border: 1px solid transparent;
+            color: var(--text-dark);
+            padding: 10px 4px;
+            border-radius: 6px;
+            font-size: 11px;
+            font-weight: 700;
+            text-align: center;
+            cursor: pointer;
+            user-select: none;
+            transition: all 0.15s ease;
+        }
+
+        .pill-checkbox {
+            display: none;
+        }
+
+        .pill-checkbox:checked + .pill-label {
+            background: rgba(255, 90, 0, 0.15);
+            border-color: var(--orange);
+            color: var(--orange);
+            font-weight: 800;
+        }
+
+        /* CAPACITY HOUR CHIPS */
+        .hours-row {
+            display: flex;
+            gap: 8px;
+        }
+
+        .hour-chip {
+            flex: 1;
+            padding: 10px;
+            background: var(--input-bg);
+            border: 1px solid transparent;
+            border-radius: 6px;
+            text-align: center;
+            font-size: 12px;
+            font-weight: 700;
+            cursor: pointer;
+            transition: all 0.15s;
+        }
+
+        .hour-chip.active {
+            background: rgba(255, 90, 0, 0.15);
+            border-color: var(--orange);
+            color: var(--orange);
+            font-weight: 800;
+        }
+
+        /* ACTION BUTTONS */
+        .action-row {
+            display: flex;
+            gap: 10px;
+            margin-top: 18px;
+        }
+
+        .btn-full-orange {
+            flex: 1;
+            background: var(--orange);
+            border: none;
+            color: #ffffff;
+            padding: 13px;
+            border-radius: 6px;
+            font-family: 'Space Grotesk', sans-serif;
+            font-weight: 800;
+            font-size: 13px;
+            cursor: pointer;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            transition: opacity 0.15s;
+        }
+
+        .btn-full-orange:hover {
+            opacity: 0.92;
+        }
+
+        .btn-ghost-back {
+            background: var(--input-bg);
+            border: none;
+            color: var(--text-dark);
+            padding: 13px 18px;
+            border-radius: 6px;
+            font-family: inherit;
+            font-weight: 800;
+            font-size: 12px;
+            cursor: pointer;
+        }
+
+        @media (max-width: 950px) {
+            .split-container {
+                grid-template-columns: 1fr;
+                gap: 32px;
+                padding: 24px 20px;
+            }
+            .hero-headline { font-size: 42px; }
+            .site-nav { padding: 12px 20px; }
+        }
+    </style>
+<style>
+html{scroll-behavior:smooth}body{overflow-x:hidden}.setup-card{border-radius:22px!important;box-shadow:0 28px 90px rgba(0,0,0,.4)!important;overflow:hidden}.setup-card input,.setup-card select,.setup-card textarea,.setup-card button{border-radius:12px!important}.setup-card button,.theme-btn,a{transition:transform .2s ease,box-shadow .2s ease,border-color .2s ease}.setup-card button:hover,.theme-btn:hover{transform:translateY(-2px)}input:focus-visible,button:focus-visible,a:focus-visible,select:focus-visible,textarea:focus-visible{outline:3px solid rgba(255,90,0,.28);outline-offset:2px}@media(max-width:760px){.split-container{padding:22px!important}.setup-card{border-radius:17px!important}.hero-headline{font-size:clamp(42px,14vw,72px)!important}}
+</style></head>
+<body>
+
+    <div class="glow-left"></div>
+    <div class="glow-right"></div>
+
+    <nav class="site-nav">
+        <a href="/" class="brand">
+            <div class="brand-icon">🐰</div>
+            <span>STUDY QUEST</span>
+        </a>
+
+        <div class="nav-actions">
+            <button id="themeToggle" class="theme-btn" type="button">🌙</button>
+            <a href="/" class="back-link">← BACK TO HOME</a>
+        </div>
+    </nav>
+
+    <main class="split-container">
+
+        <section class="left-hero">
+            <div class="badge-chip">● THE AI LEARNING WORKSPACE</div>
+
+            <h1 class="hero-headline">
+                <span class="ink">WELCOME</span><br>
+                <span class="orange-3d">ABOARD.</span><br>
+                <span class="ink">READY</span><br>
+                <span class="ink">FOR THE</span><br>
+                <span class="orange-3d">BATTLE?</span>
+            </h1>
+
+            <p>
+                Configure your target exam, syllabus, and weak chapters so your AI companion can calibrate your personalized quests, notes, and study sessions.
+            </p>
+        </section>
+
+        <section class="right-card-wrapper">
+            <div class="setup-card">
+                <div class="top-gradient-strip"></div>
+
+                <div class="card-brand-header">
+                    <div class="sq-tag">sq</div>
+                    <div class="card-title-box">
+                        <h2>Initialize Profile.</h2>
+                        <p>Set up your quest workspace parameters.</p>
+                    </div>
+                </div>
+
+                <div class="step-divider">
+                    <span id="stepTag" style="color:var(--orange);">PHASE 1: TARGET GOALS</span>
+                    <span id="stepIndicator">STEP 1 OF 3</span>
+                </div>
+
+                <form id="onboardingForm">
+
+                    <!-- STEP 1 -->
+                    <div class="step-content active" id="step1">
+                        <div class="form-group">
+                            <label for="studentName">What is your name / handle?</label>
+                            <input type="text" id="studentName" placeholder="e.g. Alex" required>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="targetExam">Target Exam / Goal</label>
+                            <select id="targetExam" required>
+                                <option value="" disabled selected>Select your exam</option>
+                                <option value="CUET UG">CUET UG</option>
+                                <option value="JEE Main / Advanced">JEE Main / Advanced</option>
+                                <option value="NEET UG">NEET UG</option>
+                                <option value="Class 12 Boards">Class 12 Boards</option>
+                                <option value="College Semester">College Semester Exams</option>
+                                <option value="General Mastery">General Revision & Mastery</option>
+                            </select>
+                        </div>
+
+                        <div class="form-group">
+                            <label for="examDate">Exam Deadline Date</label>
+                            <input type="date" id="examDate" required>
+                        </div>
+                    </div>
+
+                    <!-- STEP 2 -->
+                    <div class="step-content" id="step2">
+                        <div class="form-group">
+                            <label>Select Your Subjects</label>
+                            <div class="pills-grid">
+                                <label>
+                                    <input type="checkbox" name="subject" value="Physics" class="pill-checkbox">
+                                    <div class="pill-label">⚡ Physics</div>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="subject" value="Chemistry" class="pill-checkbox">
+                                    <div class="pill-label">🧪 Chemistry</div>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="subject" value="Mathematics" class="pill-checkbox">
+                                    <div class="pill-label">📐 Maths</div>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="subject" value="Biology" class="pill-checkbox">
+                                    <div class="pill-label">🧬 Biology</div>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="subject" value="English" class="pill-checkbox">
+                                    <div class="pill-label">📖 English</div>
+                                </label>
+                                <label>
+                                    <input type="checkbox" name="subject" value="General Test" class="pill-checkbox">
+                                    <div class="pill-label">🎯 GT</div>
+                                </label>
+                            </div>
+                        </div>
+
+                        <div class="form-group" style="margin-top: 4px;">
+                            <label for="customSubject">Other Subject (Optional)</label>
+                            <input type="text" id="customSubject" placeholder="e.g. Economics, CS...">
+                        </div>
+                    </div>
+
+                    <!-- STEP 3 -->
+                    <div class="step-content" id="step3">
+                        <div class="form-group">
+                            <label>Daily Study Target</label>
+                            <div class="hours-row">
+                                <div class="hour-chip" onclick="setHours(this, '2')">2h / day</div>
+                                <div class="hour-chip active" onclick="setHours(this, '4')">4h / day</div>
+                                <div class="hour-chip" onclick="setHours(this, '6')">6h / day</div>
+                                <div class="hour-chip" onclick="setHours(this, '8')">8h+ / day</div>
+                            </div>
+                            <input type="hidden" id="dailyHours" value="4">
+                        </div>
+
+                        <div class="form-group" style="margin-top: 6px;">
+                            <label for="weakAreas">Chapters or Topics you struggle with most</label>
+                            <textarea id="weakAreas" rows="3" placeholder="e.g. Amines in Chemistry, Calculus Integration..."></textarea>
+                        </div>
+                    </div>
+
+                    <!-- ACTIONS -->
+                    <div class="action-row">
+                        <button type="button" class="btn-ghost-back" id="prevBtn" style="display:none;">BACK</button>
+                        <button type="button" class="btn-full-orange" id="nextBtn">CONTINUE →</button>
+                    </div>
+
+                </form>
+
+            </div>
+        </section>
+
+    </main>
+
+    <script type="module">
+        import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
+        import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        const firebaseConfig = {apiKey:"AIzaSyDi4lBmRvz0ukS2033-Bhn2X8gymEGeq0g",authDomain:"study-verse-105d7.firebaseapp.com",projectId:"study-verse-105d7",storageBucket:"study-verse-105d7.firebasestorage.app",messagingSenderId:"991792725684",appId:"1:991792725684:web:a1f9312b55ede1b2b6a1e1"};
+        const auth = getAuth(initializeApp(firebaseConfig));
+        const authReady = new Promise(resolve => onAuthStateChanged(auth, user => { if (!user) window.location.href='/login'; resolve(user); }));
+        const themeToggle = document.getElementById('themeToggle');
+        const savedTheme = localStorage.getItem('sq_theme') || 'light';
+        document.body.setAttribute('data-theme', savedTheme);
+        themeToggle.textContent = savedTheme === 'dark' ? '☀️' : '🌙';
+
+        themeToggle.addEventListener('click', () => {
+            const cur = document.body.getAttribute('data-theme');
+            const next = cur === 'dark' ? 'light' : 'dark';
+            document.body.setAttribute('data-theme', next);
+            localStorage.setItem('sq_theme', next);
+            themeToggle.textContent = next === 'dark' ? '☀️' : '🌙';
+        });
+
+        function setHours(el, value) {
+            document.querySelectorAll('.hour-chip').forEach(c => c.classList.remove('active'));
+            el.classList.add('active');
+            document.getElementById('dailyHours').value = value;
+        }
+
+        let currentStep = 1;
+        const step1 = document.getElementById('step1');
+        const step2 = document.getElementById('step2');
+        const step3 = document.getElementById('step3');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const stepTag = document.getElementById('stepTag');
+        const stepIndicator = document.getElementById('stepIndicator');
+
+        const tags = ["PHASE 1: TARGET GOALS", "PHASE 2: BATTLE SYLLABUS", "PHASE 3: AI CALIBRATION"];
+
+        function renderStep(step) {
+            step1.classList.remove('active');
+            step2.classList.remove('active');
+            step3.classList.remove('active');
+
+            if (step === 1) step1.classList.add('active');
+            if (step === 2) step2.classList.add('active');
+            if (step === 3) step3.classList.add('active');
+
+            stepTag.textContent = tags[step - 1];
+            stepIndicator.textContent = `STEP ${step} OF 3`;
+
+            prevBtn.style.display = step === 1 ? 'none' : 'block';
+            nextBtn.textContent = step === 3 ? 'START STUDYING →' : 'CONTINUE →';
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentStep > 1) {
+                currentStep--;
+                renderStep(currentStep);
+            }
+        });
+
+        nextBtn.addEventListener('click', async () => {
+            if (currentStep === 1) {
+                const name = document.getElementById('studentName').value.trim();
+                const exam = document.getElementById('targetExam').value;
+                const date = document.getElementById('examDate').value;
+                if (!name || !exam || !date) {
+                    alert("Please fill all target fields.");
+                    return;
+                }
+            }
+
+            if (currentStep === 2) {
+                const checked = document.querySelectorAll('input[name="subject"]:checked');
+                const custom = document.getElementById('customSubject').value.trim();
+                if (checked.length === 0 && !custom) {
+                    alert("Please select at least one subject.");
+                    return;
+                }
+            }
+
+            if (currentStep === 3) {
+                const subjects = Array.from(document.querySelectorAll('input[name="subject"]:checked')).map(cb => cb.value);
+                const custom = document.getElementById('customSubject').value.trim();
+                if (custom) subjects.push(custom);
+
+                const profile = {
+                    name: document.getElementById('studentName').value.trim(),
+                    exam: document.getElementById('targetExam').value,
+                    examDate: document.getElementById('examDate').value,
+                    subjects: subjects,
+                    dailyHours: document.getElementById('dailyHours').value,
+                    weakAreas: document.getElementById('weakAreas').value.trim()
+                };
+
+                const user = await authReady;
+                if (!user) return;
+                localStorage.setItem(`study_quest_profile_${user.uid}`, JSON.stringify(profile));
+                window.location.href = '/dashboard';
+                return;
+            }
+
+            currentStep++;
+            renderStep(currentStep);
+        });
+    </script>
+</body>
+</html>
+
