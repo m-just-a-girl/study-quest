@@ -591,8 +591,10 @@ html{scroll-behavior:smooth}body{overflow-x:hidden}.setup-card{border-radius:22p
     <script type="module">
         import { initializeApp } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-app.js";
         import { getAuth, onAuthStateChanged } from "https://www.gstatic.com/firebasejs/10.9.0/firebase-auth.js";
+        import { createCloudStore } from "/static/js/cloud-sync.js";
         const firebaseConfig = {apiKey:"AIzaSyDi4lBmRvz0ukS2033-Bhn2X8gymEGeq0g",authDomain:"study-verse-105d7.firebaseapp.com",projectId:"study-verse-105d7",storageBucket:"study-verse-105d7.firebasestorage.app",messagingSenderId:"991792725684",appId:"1:991792725684:web:a1f9312b55ede1b2b6a1e1"};
-        const auth = getAuth(initializeApp(firebaseConfig));
+        const app = initializeApp(firebaseConfig);
+        const auth = getAuth(app);
         const authReady = new Promise(resolve => onAuthStateChanged(auth, user => { if (!user) window.location.href='/login'; resolve(user); }));
         const themeToggle = document.getElementById('themeToggle');
         const savedTheme = localStorage.getItem('sq_theme') || 'light';
@@ -684,6 +686,13 @@ html{scroll-behavior:smooth}body{overflow-x:hidden}.setup-card{border-radius:22p
                 const user = await authReady;
                 if (!user) return;
                 localStorage.setItem(`study_quest_profile_${user.uid}`, JSON.stringify(profile));
+                try {
+                    const cloud = createCloudStore(app, user);
+                    await cloud.saveProfile(profile);
+                    await cloud.track('onboarding_completed', { exam: profile.exam, subjectCount: profile.subjects.length });
+                } catch (error) {
+                    console.warn('Cloud profile sync unavailable; local profile remains safe.', error);
+                }
                 window.location.href = '/dashboard';
                 return;
             }
