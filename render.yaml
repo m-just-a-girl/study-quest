@@ -2,6 +2,7 @@ services:
   - type: web
     name: study-quest
     runtime: python
+    plan: free
     buildCommand: pip install -r requirements.txt
     startCommand: gunicorn main:app
     envVars:
@@ -11,5 +12,4 @@ services:
         generateValue: true
       - key: REQUIRE_VERIFIED_AUTH
         value: "1"
-
 
