@@ -32,6 +32,60 @@ body.light{--bg:#f7f3ed;--card:#fffdf9;--soft:#f0ece5;--line:#d9d1c7;--muted:#62
 @media(max-height:850px) and (min-width:701px){.drawer{padding-top:18px!important}.drawer-head{margin-bottom:10px!important;padding-top:18px!important;top:-18px!important}.nav button{padding:9px 12px!important}.nav{gap:1px!important}}
 @media(max-width:700px){.hero:before{width:42px;height:42px;right:4%;top:22%}.hero:after{display:none}.drawer{width:min(340px,92vw)!important}.modal-head h2{font-size:22px!important}.exam-special .modal-head{padding:14px!important}}
 .quiz-shell{display:grid;gap:16px}.quiz-question{padding:18px;border:1px solid var(--line);border-radius:16px;background:var(--card)}.quiz-question h3{margin:0 0 13px;font-family:"Syne",sans-serif;font-size:18px}.quiz-options{display:grid;gap:8px}.quiz-option{display:flex;gap:10px;align-items:flex-start;padding:11px 12px;border:1px solid var(--line);border-radius:11px;background:var(--soft);cursor:pointer}.quiz-option:has(input:checked){border-color:var(--orange);box-shadow:0 0 0 3px #ff5a0015}.quiz-result{margin-top:12px;padding:10px 12px;border-radius:10px;font-size:14px}.quiz-result.correct{background:#2dd39a1c;color:#14956c}.quiz-result.wrong{background:#ff36521a;color:#e73550}.quiz-score{position:sticky;bottom:12px;padding:14px 18px;border-radius:14px;background:var(--orange);color:#fff;font-family:"Syne";font-weight:800;text-align:center}
+</style>
+<style id="v2-theme-refresh">
+:root{
+  --bg:#08070d;--card:#121017;--soft:#1a1721;--ink:#fffaf4;--muted:#b8aebd;
+  --line:#ffffff18;--orange:#ff6a00;--purple:#a72cff;--pink:#ef3f91;--green:#3ee5ae;
+}
+body{
+  background-color:var(--bg);
+  background-image:
+    radial-gradient(circle at 12% 8%,#ff6a002d 0,transparent 29%),
+    radial-gradient(circle at 88% 10%,#a72cff32 0,transparent 34%),
+    linear-gradient(#ffffff0b 1px,transparent 1px),
+    linear-gradient(90deg,#ffffff0b 1px,transparent 1px),
+    linear-gradient(135deg,#08070d 0%,#090d0c 48%,#0d0814 100%);
+  background-size:auto,auto,44px 44px,44px 44px,auto;
+  background-attachment:fixed;
+}
+body:before{content:"";position:fixed;inset:0;pointer-events:none;z-index:-1;background:radial-gradient(circle at 50% 20%,transparent 0 30%,#00000045 100%)}
+.top{border-color:#ffffff20;background:#0d0c12c9;box-shadow:0 18px 65px #0008,0 0 0 1px #ffffff06 inset}
+.menu-btn,.light-switch,.close{background:linear-gradient(145deg,#1b1820,#100e15);border-color:#ffffff20}
+.logo i{background:linear-gradient(145deg,#ff7900,#ff4f12);box-shadow:4px 4px 0 var(--purple),0 0 28px #ff650044}
+.greet{color:#ff8a3d;border-color:#ff6a0060;background:linear-gradient(90deg,#ff6a0019,#a72cff0d)}
+.hero h1 span{background:linear-gradient(90deg,#ff6a00 0%,#ff4f45 38%,#ef3f91 70%,#a72cff 100%);-webkit-background-clip:text;background-clip:text;color:transparent;text-shadow:none;filter:drop-shadow(4px 5px 0 #6d16d4)}
+.pill{background:#121017d9;border-color:#ffffff1c;box-shadow:0 12px 30px #0004,inset 0 1px #ffffff10}
+.quest{background:linear-gradient(145deg,#151319f2,#0f1110ee 56%,#171120f0);border-color:#ffffff1e;box-shadow:0 30px 90px #0009,0 0 70px #a72cff0d}
+.quest:before{height:4px;background:linear-gradient(90deg,#ff6a00,#ef3f91 54%,#a72cff)}
+.start{background:linear-gradient(115deg,#ff7400,#ff4f16 55%,#ef3f76);box-shadow:0 13px 34px #ff5c0030}
+.start:hover{box-shadow:0 16px 40px #ff5c0042;transform:translateY(-3px)}
+.ai-entry{background:linear-gradient(110deg,#17141df2,#201529e8);border-color:#a72cff38;box-shadow:0 18px 55px #0005}
+.ai-entry:hover{border-color:#ef3f91aa;box-shadow:0 20px 60px #a72cff1b}
+.drawer{background:linear-gradient(165deg,#151219 0%,#0c0b10 100%);border-color:#ffffff1f}
+.nav button:hover{color:#ff7a27;background:linear-gradient(90deg,#ff6a0017,#a72cff0e)}
+.modal{background-color:var(--bg);background-image:radial-gradient(circle at 85% 4%,#a72cff25,transparent 30%),radial-gradient(circle at 5% 12%,#ff6a0022,transparent 28%),linear-gradient(#ffffff09 1px,transparent 1px),linear-gradient(90deg,#ffffff09 1px,transparent 1px);background-size:auto,auto,44px 44px,44px 44px}
+.modal-head{background:#0b0a10dd}.tool-card,.answer,.video,.upload-zone{background:linear-gradient(145deg,#17141c,#100f14);border-color:#ffffff1c}
+.field,.ask textarea{background:#17141ce8;border-color:#ffffff1c;color:var(--ink)}
+.todo-item{background:#18151de6;border-color:#ffffff18}
+body.light{
+  --bg:#fbf7f1;--card:#fffdfa;--soft:#f3ece4;--ink:#171219;--muted:#6f6472;--line:#2a15221c;
+  background-color:var(--bg);
+  background-image:radial-gradient(circle at 10% 5%,#ff6a0020,transparent 28%),radial-gradient(circle at 92% 8%,#a72cff1b,transparent 30%),linear-gradient(#2c16200c 1px,transparent 1px),linear-gradient(90deg,#2c16200c 1px,transparent 1px),linear-gradient(135deg,#fff8ef,#faf7f3 52%,#f7effc);
+  background-size:auto,auto,44px 44px,44px 44px,auto;
+}
+body.light:before{background:radial-gradient(circle at 50% 10%,transparent,#fff9)}
+body.light .top{background:#fffaf1d9;border-color:#3b172018;box-shadow:0 18px 55px #7c3d6417}
+body.light .menu-btn,body.light .light-switch,body.light .close{background:#fffaf5;color:#171219;border-color:#3b172020}
+body.light .pill{background:#fffdf9dd;border-color:#3b172018;box-shadow:0 12px 28px #7c3d6412}
+body.light .quest{background:linear-gradient(145deg,#fffdf9f5,#fff8f0 55%,#faf2fff2);border-color:#4a1d3218;box-shadow:0 28px 70px #7c3d6419}
+body.light .ai-entry{background:linear-gradient(110deg,#fff9f2,#f8efff);border-color:#a72cff28;color:#171219}
+body.light .drawer{background:linear-gradient(165deg,#fffdf9,#f8f0fa);color:#171219}
+body.light .modal{background-color:#fbf7f1;background-image:radial-gradient(circle at 85% 4%,#a72cff18,transparent 30%),radial-gradient(circle at 5% 12%,#ff6a0018,transparent 28%),linear-gradient(#2c16200b 1px,transparent 1px),linear-gradient(90deg,#2c16200b 1px,transparent 1px);background-size:auto,auto,44px 44px,44px 44px}
+body.light .modal-head{background:#fbf7f1e8}
+body.light .tool-card,body.light .answer,body.light .video,body.light .upload-zone{background:#fffdf9;color:#171219;border-color:#3b17201a}
+body.light .field,body.light .ask textarea,body.light .todo-item{background:#fffaf5;color:#171219;border-color:#3b172020}
+@media(max-width:700px){body{background-size:auto,auto,32px 32px,32px 32px,auto}.hero h1 span{filter:drop-shadow(3px 3px 0 #6d16d4)}.quest{box-shadow:0 22px 55px #0007}.top{backdrop-filter:blur(16px)}}
 </style></head><body>
 <div class="shade" id="shade"></div><aside class="drawer" id="drawer"><div class="drawer-head"><h2>STUDY QUEST</h2><button class="close" id="closeMenu">✕</button></div><nav class="nav"><button data-open="subjectsModal">📚 Subjects</button><button data-open="notesModal">📝 Notes</button><button data-open="aiModal" data-mode="chat">❓ Ask AI</button><button data-open="studyModal">🎥 Study With Me</button><button data-open="pomoModal">⏱ Pomodoro</button><button data-open="progressModal">📊 Progress</button><button data-open="rewardsModal">🏆 Rewards</button><button data-open="examModal">🚨 Exam Mode</button><button data-open="supportModal">☎ Support</button><button id="adminNav" data-open="adminModal" hidden>🛠 Developer</button><button id="themeBtn">🌞</button><button id="logoutBtn">↪ Log Out</button></nav></aside>
 <header class="wrap top"><button class="menu-btn" id="menuBtn">☰</button><div class="logo"><i>🐰</i> STUDY QUEST</div><div class="top-actions"><div class="status">● SYSTEM ONLINE</div><button class="light-switch" id="quickTheme" aria-label="Switch theme" title="Switch theme">🌞</button></div></header>
@@ -70,4 +124,3 @@ $("examForm").onsubmit=async e=>{e.preventDefault();let q=$("examQuery").value.t
 async function loadAdmin(){try{let data=await window.studyQuestCloud.getAdminOverview();$("adminProfiles").textContent=data.totalProfiles+" cloud profiles";$("adminXp").textContent=data.totalXp+" combined XP";$("adminQuests").textContent=data.completedQuests+" quests";$("adminEvents").textContent=data.events.length+" recent events";let activity=$("adminActivity");activity.innerHTML="";data.events.forEach(event=>{let line=document.createElement("p");line.textContent=(event.type||"activity").replaceAll("_"," ");activity.append(line)});if(!data.events.length)activity.innerHTML="<p>No V2 activity recorded yet.</p>"}catch(error){$("adminActivity").innerHTML="<p>Admin analytics will load after Firestore is enabled.</p>"}}
 async function initializeDashboard(){while(!window.studyQuestAuthReady)await new Promise(r=>setTimeout(r,30));let user=await window.studyQuestAuthReady;if(!user)return;if(user.uid==="JuMiEQh6RrSXlVtHPNcjEwM95HD3"){$("adminNav").hidden=false;$("adminNav").addEventListener("click",loadAdmin)}let key=`study_quest_profile_${user.uid}`,localProfile=JSON.parse(localStorage.getItem(key)||"null"),p;try{p=await window.studyQuestCloud.getProfile();if(!p&&localProfile){p=localProfile;await window.studyQuestCloud.saveProfile(p)}}catch(error){p=localProfile}if(!p){location.href="/onboarding";return}localStorage.setItem(key,JSON.stringify(p));window.studyQuestProfileKey=key;todoStorageKey=`sq-today-todos_${user.uid}`;await loadTodos();$("editExam").value=p.exam||"";$("editDate").value=p.examDate||"";$("editHours").value=p.dailyHours||3;$("editSubjects").value=(p.subjects||[]).join(", ");$("editWeak").value=p.weakAreas||"";$("greeting").textContent="Good "+(new Date().getHours()<12?"morning":new Date().getHours()<18?"afternoon":"evening")+", "+(p.name||"adventurer");await sync();await fillProgress();try{await window.studyQuestCloud.track("dashboard_opened")}catch(error){}}initializeDashboard();
 </script></body></html>
-
