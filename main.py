@@ -14,6 +14,7 @@ from google.oauth2 import id_token
 
 load_dotenv()
 app = Flask(__name__)
+app.config["TEMPLATES_AUTO_RELOAD"] = True
 app.secret_key = os.getenv("FLASK_SECRET_KEY") or secrets.token_hex(32)
 app.url_map.strict_slashes = False
 OPENROUTER_API_KEY = os.getenv("OPENROUTER_API_KEY", "").strip()
@@ -56,16 +57,23 @@ def progress_state():
         session["progress"] = state
     return state
 
+def active_elapsed_seconds(active):
+    end_time = active.get("paused_at") or int(time.time())
+    return max(0, end_time - active["started_at"] - active.get("paused_seconds", 0))
+
 def public_progress(state):
     active = state.get("active")
     active_public = None
     if active:
-        elapsed = max(0, int(time.time()) - active["started_at"])
+        elapsed = active_elapsed_seconds(active)
         active_public = {
             "quest_id": active["quest_id"],
+            "subject": active.get("subject", QUESTS[active["quest_id"]]["subject"]),
+            "topic": active.get("topic", QUESTS[active["quest_id"]]["title"]),
             "started_at": active["started_at"],
             "required_seconds": active["required_seconds"],
             "remaining_seconds": max(0, active["required_seconds"] - elapsed),
+            "is_paused": bool(active.get("paused_at")),
         }
     completed = state.get("completed", [])
     today = date.today()
@@ -267,15 +275,43 @@ def start_quest():
         return jsonify(error="Unknown quest."), 404
 
     state = progress_state()
-    if quest_id in state.get("completed", []):
-        return jsonify(error="This quest has already been completed."), 409
-
     quest = QUESTS[quest_id]
+    requested_minutes = data.get("minutes", quest["minutes"])
+    try:
+        focus_minutes = max(1, min(180, int(requested_minutes)))
+    except (TypeError, ValueError):
+        focus_minutes = quest["minutes"]
     state["active"] = {
         "quest_id": quest_id,
+        "subject": str(data.get("subject") or quest["subject"]).strip()[:80],
+        "topic": str(data.get("topic") or quest["title"]).strip()[:120],
         "started_at": int(time.time()),
-        "required_seconds": quest["minutes"] * 60,
+        "required_seconds": focus_minutes * 60,
+        "paused_at": None,
+        "paused_seconds": 0,
     }
+    session["progress"] = state
+    session.modified = True
+    return jsonify(ok=True, progress=public_progress(state))
+
+@app.post("/api/quest/mode")
+def set_quest_mode():
+    state = progress_state()
+    active = state.get("active")
+    if not active:
+        return jsonify(error="Start a focus session first."), 400
+
+    mode = str((request.get_json(silent=True) or {}).get("mode", ""))
+    now = int(time.time())
+    if mode == "break" and not active.get("paused_at"):
+        active["paused_at"] = now
+    elif mode == "focus" and active.get("paused_at"):
+        active["paused_seconds"] = active.get("paused_seconds", 0) + now - active["paused_at"]
+        active["paused_at"] = None
+    elif mode not in {"focus", "break"}:
+        return jsonify(error="Unknown session mode."), 400
+
+    state["active"] = active
     session["progress"] = state
     session.modified = True
     return jsonify(ok=True, progress=public_progress(state))
@@ -288,18 +324,13 @@ def complete_quest():
         return jsonify(error="Start a quest before completing it."), 400
 
     quest_id = active["quest_id"]
-    elapsed = int(time.time()) - active["started_at"]
+    elapsed = active_elapsed_seconds(active)
     remaining = max(0, active["required_seconds"] - elapsed)
     if remaining:
         return jsonify(
             error="The focus session is not finished yet.",
             remaining_seconds=remaining,
         ), 409
-
-    if quest_id in state.get("completed", []):
-        state["active"] = None
-        session["progress"] = state
-        return jsonify(error="XP for this quest was already awarded."), 409
 
     quest = QUESTS[quest_id]
     state.setdefault("completed", []).append(quest_id)
@@ -319,6 +350,8 @@ def complete_quest():
     return jsonify(
         ok=True,
         awarded_xp=quest["xp"],
+        subject=active.get("subject", quest["subject"]),
+        topic=active.get("topic", quest["title"]),
         progress=public_progress(state),
     )
 
@@ -436,4 +469,3 @@ def generate_quiz():
 
 if __name__ == "__main__":
     app.run(debug=os.getenv("FLASK_DEBUG") == "1", port=int(os.getenv("PORT", "5000")))
-

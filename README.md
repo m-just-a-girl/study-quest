@@ -25,4 +25,3 @@ An AI-powered study workspace with onboarding, a personalized dashboard, notes a
 This repository includes a `render.yaml` Blueprint. Connect the GitHub repository to Render, add `OPENROUTER_API_KEY`, and deploy. After deployment, add the public Render domain to Firebase Authentication's authorized domains.
 
 Private `.env` values are excluded from GitHub.
-

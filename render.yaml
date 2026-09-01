@@ -12,4 +12,3 @@ services:
         generateValue: true
       - key: REQUIRE_VERIFIED_AUTH
         value: "1"
-

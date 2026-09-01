@@ -4,4 +4,3 @@ google-auth==2.40.3
 pypdf==6.0.0
 python-dotenv==1.1.1
 requests==2.32.5
-
